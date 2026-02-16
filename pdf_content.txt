@@ -1,0 +1,655 @@
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+Designing for Negotiation in Collaborative Healthcare: The Role of AI Mediators
+DIOGO BRANCO,LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal
+FILIPA FERREIRA-BRITO,LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal and ISAMB, Faculdade
+de Medicina, Universidade de Lisboa, Portugal
+PA VITHREN V S PAKIANATHAN,LMU Munich, Germany and Ludwig Boltzmann Institute for Digital Health
+and Prevention, Austria
+CHRISTINA CHUNG,University of California, Santa Cruz, USA
+JAN SMEDDINCK,Ludwig Boltzmann Institute for Digital Health and Prevention, Austria
+KYLE MONTAGUE,Computer and Information Sciences Northumbria University, United Kingdom
+CÁTIA PESQUITA,LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal
+RÚBEN GOUVEIA,LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal
+Collaborative healthcare is shaped by complex negotiations among patients, caregivers, and clinicians, yet current technologies focus
+primarily on monitoring and adherence, offering limited support for shared decision-making. Differences in knowledge, power, and
+goals often generate tension around treatment, lifestyle, and data-sharing decisions. Recent advances in GenAI and LLMs open the
+possibility for AI to act as a mediator, translating clinical evidence into patient-relevant insights, visualizing trade-offs, and supporting
+negotiation without overriding human agency. This workshop aims to bring together an interdisciplinary mix of HCI researchers, AI
+practitioners, clinicians, and designers to explore AI-mediated collaboration. Through hands-on activities, participants will discuss
+design challenges and opportunities, identify ethical and socio-technical tensions, create speculative design stories, and future research
+avenues. The goal is to develop a shared research agenda for interactive health systems that foster equitable negotiation, respect
+stakeholder agency, and place human relationships at the center of collaborative care.
+CCS Concepts:•Human-centered computing → Human computer interaction (HCI);Collaborative and social computing.
+Additional Key Words and Phrases: Clinical AI, Collaboration, Negotiation, Healthcare, Human-AI Collaboration
+ACM Reference Format:
+Diogo Branco, Filipa Ferreira-Brito, Pavithren V S Pakianathan, Christina Chung, Jan Smeddinck, Kyle Montague, Cátia Pesquita,
+and Rúben Gouveia. 2018. Designing for Negotiation in Collaborative Healthcare: The Role of AI Mediators. InProceedings of Make sure
+to enter the correct conference title from your rights confirmation email (Conference acronym ’XX).ACM, New York, NY, USA, 7 pages.
+https://doi.org/XXXXXXX.XXXXXXX
+Authors’ Contact Information: Diogo Branco, djbranco@ciencias.ulisboa.pt, LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal; Filipa
+Ferreira-Brito, frbrito@ciencias.ulisboa.pt, LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal and ISAMB, Faculdade de Medicina,
+Universidade de Lisboa, Portugal; Pavithren V S Pakianathan, , LMU Munich, Germany and Ludwig Boltzmann Institute for Digital Health and Prevention,
+Austria; Christina Chung, cfchung@ucsc.edu, University of California, Santa Cruz, USA; Jan Smeddinck, jan.smeddinck@lbg.ac.at, Ludwig Boltzmann
+Institute for Digital Health and Prevention, Austria; Kyle Montague, kyle.montague@northumbria.ac.uk, Computer and Information Sciences Northumbria
+University, United Kingdom; Cátia Pesquita, clpesquita@ciencias.ulisboa.pt, LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal; Rúben
+Gouveia, rhgouveia@ciencias.ulisboa.pt, LASIGE, Faculdade de Ciências, Universidade de Lisboa, Portugal.
+Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not
+made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components
+of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on
+servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org.
+©2018 Copyright held by the owner/author(s). Publication rights licensed to ACM.
+Manuscript submitted to ACM
+Manuscript submitted to ACM 1
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+2 Branco et al.
+1 Introduction
+Collaboration plays a central role in healthcare management, particularly in contexts of chronic illness and long-term
+care [11]. However, this collaboration unfolds among stakeholders with differing goals, levels of expertise, and degrees
+of power, including patients, informal caregivers, and healthcare professionals [11]. These asymmetries create persistent
+challenges for information sharing, day-to-day support, and the definition and negotiation of personalized care plans,
+often leading to misalignment between clinical recommendations and the expectations, lived experiences and values of
+patients [13].
+Digital health technologies and the data they generate have the potential to support collaborative care by enabling
+communication, coordination, and shared sensemaking among stakeholders [1, 5, 7, 10, 17]. However most existing
+systems remain primarily oriented toward monitoring, motivation / adherence, and reporting, offering limited support
+for the joint exploration and interpretation of data or for negotiating diverging interests and priorities [2, 16]. As a
+result, there is a critical gap in interactive mechanisms that facilitate shared understanding while respecting the distinct
+perspectives, needs, and agency of each stakeholder involved in care.
+Recent advances in GenAI and LLMs introduce new opportunities to address this gap showing potential to support
+data exploration, generate adaptive explanations, and tailored representations to different audiences [18]. Prior research
+has explored the use of AI in healthcare as a diagnostic aid [ 3, 6, 9], a clinical monitoring tool [ 4, 12, 15], and for
+everyday support [8, 14]. However, the role of AI in collaborative healthcare remains underexplored, particularly its
+potential to function not only as an individual support tool, but also as a mediator that facilitates communication,
+negotiation, and shared decision-making among multiple stakeholders.
+This workshop aims to critically examine the current and future role of AI in supporting collaboration in healthcare.
+We focus specifically on how AI-based systems might be designed to responsibly support moments of negotiation, such
+as decisions about what data to collect, how to interpret it, and how to share it across stakeholders, while preserving
+individual agency, ascertaining the required accountability, promoting transparency, and addressing power imbalances.
+Through the use of real-world case studies, illustrative scenarios, and participatory design activities, the workshop
+will provide a space to surface challenges, identify barriers and design requirements, and explore opportunities for
+integrating AI into real-world collaborative health monitoring contexts. Ultimately, the workshop seeks to contribute to
+the future of collaborative health monitoring by building a shared understanding of AI’s role in mediating collaboration,
+negotiation, and shared decision-making, fostering a cross-disciplinary community . and shared decision-making, and
+fostering a cross-disciplinary community.
+2 Workshop Goals
+The primary goal of this workshop is to bridge cross-disciplinary perspectives between researchers and practitioners
+interested in how AI technologies can be designed, developed, and deployed to support collaborative health monitoring
+and care. The workshop aims to move beyond individual-focused AI applications toward a shared understanding of the
+role of AI in mediating collaboration, negotiation, and shared decision-making among multiple healthcare stakeholders.
+In doing so, it seeks to foreground patient agency and empowerment while critically examining power dynamics,
+ethical considerations, and socio-technical challenges that shape AI-supported collaboration in real-world care contexts.
+To guide this discussion, the workshop will focus on three overarching goals: (1) Identify challenges, tensions and
+opportunities in AI-supported negotiation and shared decision-making; (2) Build a cross-disciplinary community around
+AI-mediated collaboration and negotiation in healthcare; (3) Articulate open research questions and future directions for
+Manuscript submitted to ACM
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+Designing for Negotiation in Collaborative Healthcare: The Role of AI Mediators 3
+interactive health systems; To address these goals, the workshop seeks to bring together researchers and practitioners
+from HCI, interactive health, AI/ML, clinical practice, ethics, and design. Participants will be encouraged to share
+real-world experiences, case studies, and challenges related to collaboration in healthcare, including both successful
+and problematic uses of AI technologies. Through structured discussions and participatory activities, the workshop
+will foster dialogue around existing designs, emerging practices, and future directions. Ultimately, the workshop aims
+to build a shared understanding and a cross-disciplinary community around AI-mediated collaboration in healthcare,
+laying the groundwork for future research collaborations and impactful interactive health systems. The workshop
+invites contributions that engage with the following topics: (1) Design and evaluation of interactive health technologies
+for patients, caregivers, and healthcare professionals; (2) Collaboration, negotiation, and shared decision-making in care;
+(3) AI technologies, ethics and governance in healthcare; (4) Privacy, consent, and data-sharing in multi-stakeholder
+health ecosystems; (5) Participatory, co-design, and user-centered design methods in healthcare research; (6) Use of AI
+in clinical workflows and real-world constraints in the deployment of AI systems in care settings.
+3 Workshop Structure and Activities
+The workshop will take place in person over one day, complemented by pre-workshop asynchronous activities to foster
+early engagement and broaden participation.
+Approximately two weeks prior to the workshop, participants will be invited to join an asynchronous communication
+space (e.g., a Slack server). This space aims to support inclusive participation, including engagement from individuals
+who may not be able to attend the workshop in person, and to create a more informal environment for participants
+to get to know each other. Dedicated channels will be created for introductions, workshop-related discussions, topic
+exploration, and discussion of accepted submissions. Participants will also be encouraged to collaboratively identify
+and discuss scenarios illustrating the role of AI in collaborative healthcare. Shared collaborative tools (e.g., Miro boards)
+will be used to collect and structure these scenarios ahead of the workshop.
+During the in-person workshop, three lightning talks will provide initial perspectives and seed discussion, while
+the majority of the time will be dedicated to small-group discussions and hands-on collaborative activities. Building
+on the scenarios identified during the pre-workshop phase, groups will engage in speculative design activities to
+explore challenges, tensions, and opportunities related to AI-mediated collaboration and negotiation in healthcare. Each
+group will iteratively develop speculative design stories that surface barriers and propose possible design strategies for
+overcoming them, using shared Miro boards to support collaborative ideation.
+After each activity, groups will report back to the full workshop, enabling cross-group reflection and synthesis. To
+ensure continued inclusion of participants who are not physically present, the Miro boards and discussion summaries
+will be shared in the asynchronous communication space, allowing for further commentary and reflection beyond
+the workshop day. These shared artifacts will serve as both documentation and key workshop outputs. These are the
+planned activities:
+Introduction and welcome (10 minutes):The workshop will begin with a brief welcome from the organizers to
+introduce the objectives, schedule, and expected outcomes. Participants will receive an overview of the day’s activities
+and be allocated to working groups, which will remain the same during activities.
+Ice-breaking activity and participant introductions (30 minutes):Participants will introduce themselves,
+sharing their background, expertise, and interests in AI, healthcare, or collaborative technologies. The goal is to create
+a welcoming atmosphere, enable participants to identify shared interests, and facilitate networking early in the day.
+Manuscript submitted to ACM
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+4 Branco et al.
+Lightning talks: perspectives from HCI, AI, and health practice (40 minutes):Three short talks will be
+presented, each focusing on a different perspective: HCI and interactive design in healthcare; AI/ML capabilities and
+limitations in health applications; Clinical practice and real-world constraints. After the talks we will have QA, allowing
+participants to clarify concepts, ask questions, and connect the perspectives across disciplines. This session sets a
+common foundation for later group discussions and activities.
+Break (15 minutes):A coffee break for participants to refresh and network.
+Tools and scenarios for collaboration (60 minutes):Participants will explore tools, processes, and scenarios
+for collaborative healthcare. The focus is on how patients, caregivers, and clinicians negotiate, share information, and
+coordinate activities. Groups will identify challenges, trade-offs, and opportunities for improving collaboration, without
+focusing specifically on AI. Each group will then report back their findings to the full workshop, highlighting insights,
+tensions, and questions that emerge from real-world collaborative scenarios.
+Current opportunities and challenges of AI in collaborative health (60 minutes):Participants will discuss
+existing AI applications, limitations, ethical concerns, and power dynamics, and reflect on how AI currently supports
+or hinders collaboration. In small groups, they will analyze case studies that reflect diverse healthcare contexts (e.g.
+formal vs informal settings, synchronous and asynchronous settings) and examples of AI deployments and report back
+key insights, including gaps and challenges that could inform future AI-mediated interventions. Each group will then
+report back to the full workshop, sharing key insights, identified gaps, and recurring challenges. As an outcome, groups
+will articulate a set of research provocations or design hypotheses to guide future work on AI-mediated collaboration
+in healthcare.
+Lunch (90 minutes):Lunch will be in places nearby the venue to allow participants to network and discuss ideas in
+smaller, informal groups.
+Designing AI as a mediator for collaboration in health (60 minutes);Building on the challenges, opportunities,
+and dimensions identified in earlier sessions, participants will work in groups to critically explore how AI could act as a
+mediator in collaborative healthcare contexts. Rather than focusing on fully specified solutions, groups will examine
+key moments of tension, negotiation, or breakdown in collaboration and articulate design opportunities, constraints,
+and trade-offs. Through sketches, interaction narratives, or design prompts, participants will explore how AI-mediated
+interventions might support shared decision-making while accounting for stakeholder perspectives, power dynamics,
+agency, and ethical concerns.
+Break(15 minutes):A coffee break for participants to refresh and network.
+Creating and Sharing Group Stories (60 minutes):Groups will collaboratively develop speculative design stories
+grounded in the scenarios and discussions from earlier sessions. Each story will articulate a collaborative healthcare
+challenge, highlight tensions and stakeholder perspectives, and explore how AI could mediate collaboration, support
+negotiation, or enhance shared decision-making. Groups will then present their stories to all participants, followed by
+collective discussion and feedback to surface common themes, contrasting approaches, and key insights. The resulting
+stories, along with the research questions and future research directions they generate, will contribute to shared
+workshop outputs and inform the post-workshop white paper.
+Reflection and wrap-up (30 minutes):The workshop will close with a collective reflection on key insights,
+challenges, and research questions identified during the day. Organizers will summarize the outputs, discuss next steps,
+and provide guidance on ongoing engagement, including follow-up activities or involvement in the next workshop
+edition.
+Manuscript submitted to ACM
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+Designing for Negotiation in Collaborative Healthcare: The Role of AI Mediators 5
+Dinner and informal discussions (optional):An informal dinner will provide additional opportunities for
+networking, deeper discussions of ideas raised during the day, and fostering collaborations beyond the workshop.
+Following the workshop, the organizers plan to consolidate the outputs from the discussions and collaborative
+artifacts into a shared white paper outlining key insights, challenges, and future research directions. In addition,
+participants will be invited to engage in follow-up activities, including the potential organization of a future edition of
+the AI as Mediator for Collaborative Health workshop at a subsequent Interactive Health conference.
+4 Organizers
+Diogo Brancois a PhD student and an Invited Assistant Professor in Computer Science at Faculdade de Ciências da
+Universidade de Lisboa. His research focuses on HCI and Digital Health, with an emphasis on designing, developing, and
+studying technologies that support collaboration in healthcare contexts. Diogo has experience organizing workshops,
+including at Ubicomp.
+Filipa Ferreira-Britois a researcher with a background in neuropsychology and cognitive assessment, working at
+the intersection of digital health, participatory design, and cognitive rehabilitation in older adults. She is an invited
+assistant researcher at the Faculty of Sciences, University of Lisbon, and an integrated member of LASIGE Computer
+Science and Engineering Research Centre. Her work is grounded in close collaboration with patients and health
+technology users, focusing on the design, implementation, and evaluation of digital health interventions, including
+mobile health solutions and immersive virtual environments.
+Pavithren V S Pakianathanis a PhD candidate at the Ludwig Boltzmann Institute for Digital Health and Prevention
+and LMU Munich. His research focuses on designing tools for shared decision-making, specifically examining how
+patients and clinicians collaboratively interpret Patient-Generated Health Data (PGHD). He employs a mixed-methods
+approach, integrating design research and PPIE (Patient and Public Involvement and Engagement) with surveys and
+iterative prototyping, evolving concepts from low-fidelity sketches to high-fidelity interactive systems. Drawing on five
+years of experience in digital transformation consulting, Pavithren adopts a socio-technical perspective to surface and
+address the design tensions that arise during the implementation of digital health tools. By bridging industry experience
+with academic expertise, he aims to advance medicine with human-centered digital health interventions.
+Christina Chungis an Associate Professor at the University of California, Santa Cruz. Christina’s research focuses
+on how personal informatics technologies can be designed to support the changing and social nature of everyday
+behavior and contexts.
+Jan Smeddinckis the Co-Director of the Ludwig Boltzmann Institute for Digital Health and Prevention. He brings
+extensive expertise in human-centered adaptive health technologies, having led research on personalization, patient-
+generated data integration, and long-term behavior change support. His work on human-data interaction principles
+and shared decision-making frameworks directly addresses collaborative healthcare challenges. Through supervising
+research on data sense-making for chronic disease management and developing adaptive digital health interventions,
+Jan has contributed foundational insights into designing patient-empowering systems that balance clinical evidence
+with lived experience together with further core themes of AI-mediated collaborative care.
+Kyle Montagueis Professor of Human-Computer Interaction at Northumbria University, where he directs the
+Northumbria Social Computing research group and serves as Research Co-Lead of the Centre for Responsible AI. His
+research focuses on digital civics and citizen-centred AI, exploring how participatory platforms can support more
+equitable relationships between citizens and the institutions that serve them. As Co-Investigator on the UKRI Centre
+for Doctoral Training in Citizen-Centred AI, he explores how AI systems can be designed to give voice to citizens’
+Manuscript submitted to ACM
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+6 Branco et al.
+needs and aspirations. He also leads work on the RAI UK PROBabLE Futures project, using storytelling and speculative
+methods to help citizens envision fairer AI futures for policing and criminal justice. Kyle has extensive experience
+organising workshops at leading academic conferences in HCI and Digital Health, and has built an international research
+community through the Digital Civics Exchange programme, which he has run annually since 2018.
+Cátia Pesquitais an Associate Professor at Ciências ULisboa and Vice-Director of the LASIGE Computer Science and
+Engineering Research Lab, where she coordinates the Research Line of Excellence in Health and Biomedical Informatics.
+Her research focuses on the synergies between human and machine intelligence in generating scientific knowledge
+from data and bridging the gap between predictive ML and clinical practice. She has made significant contributions at
+the intersection of machine learning, knowledge graphs and explainable AI, with over 70 peer-reviewed publications
+in high-impact journals and conferences, having been recognized as one of the top 2% most cited scientists across
+AI and Bioinformatics since 2020. Her roles include advisory and leadership positions in international and national
+organizations, such as the Center for Artificial Intelligence and Causal Methods in Medicine (Germany), RedeSaude
+(the strategic network in health of ULisboa), and Biodata.pt, an association for the valorisation of the biological data
+generated by Portuguese Science.
+Rúben Gouveiais an Assistant Professor at University of Lisbon’s Faculty of Sciences, Department of Computer
+Science, working at the intersection of behavioral science and human–computer interaction. I have recently been
+focusing on the challenges of designing for engagement with digital health interventions, including how people engage
+with systems and interfaces, how they engage with the behaviors those systems aim to support, and how these forms of
+engagement shape understanding, and action on information.
+5 Call for Participation
+We invite researchers, designers, clinicians, and practitioners to participate in the Designing for Negotiation in Col-
+laborative Healthcare: The Role of AI Mediators workshop at ACM Interactive Health 2026. This one-day, in-person
+workshop will combine pre-workshop asynchronous activities with interactive sessions, lightning talks, small-group
+discussions, and collaborative design activities. The workshop aims to explore how AI can support negotiation, shared
+decision-making, and collaboration between stakeholders, while foregrounding patient agency, empowerment, and
+ethical responsibility.
+Participants will engage in scenario mapping, group discussion, speculative design stories, and structured reporting
+activities. These activities will foster cross-disciplinary dialogue and generate shared outputs highlighting challenges,
+opportunities, and future research directions for AI-mediated collaboration in healthcare.
+We welcome authors to submit a statement of interest up to 3 pages in the ACM Master Template addressing at least
+one workshop topic. Submissions should briefly describe: (1) the author’s background, (2) the healthcare context(s)
+of interest, and (3) experience with or perspectives on AI in healthcare, particularly in relation to collaboration or
+mediation. Submissions will be collected via a submission form on the workshop website.
+Submissions will be reviewed for relevance, diversity of perspectives, and potential to contribute to discussion. At
+least one author of each accepted submission must attend the workshop in person, and all participants must register for
+both the workshop and at least one day of the conference. Accepted submissions will be published on the workshop
+website. We encourage contributions from diverse disciplines, including HCI, AI/ML, clinical practice, healthcare
+research, and design.
+Manuscript submitted to ACM
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+Designing for Negotiation in Collaborative Healthcare: The Role of AI Mediators 7
+References
+[1] Diogo Branco, Margarida Móteiro, Raquel Bouça-Machado, Rita Miranda, Tiago Reis, Élia Decoroso, Rita Cardoso, Joana Ramalho, Filipa Rato, Joana
+Malheiro, et al. 2024. Co-designing Customizable Clinical Dashboards with Multidisciplinary Teams: Bridging the Gap in Chronic Disease Care. In
+Proceedings of the CHI Conference on Human Factors in Computing Systems. 1–18.
+[2] Chia-Fang Chung, Kristin Dew, Allison Cole, Jasmine Zia, James Fogarty, Julie A Kientz, and Sean A Munson. 2016. Boundary negotiating artifacts
+in personal informatics: patient-provider collaboration with patient-generated data. InProceedings of the 19th ACM conference on computer-supported
+cooperative work & social computing. 770–786.
+[3] Ali Garavand, Ali Behmanesh, Nasim Aslani, Hamidreza Sadeghsalehi, and Mustafa Ghaderzadeh. 2023. Towards diagnostic aided systems in
+coronary artery disease detection: a comprehensive multiview survey of the state of the art.International Journal of Intelligent Systems2023, 1
+(2023), 6442756.
+[4] Konstantina-Maria Giannakopoulou, Ioanna Roussaki, and Konstantinos Demestichas. 2022. Internet of things technologies and machine learning
+methods for Parkinson’s disease diagnosis, monitoring and management: a systematic review.Sensors22, 5 (2022), 1799.
+[5] Isabel Höppchen, Daniela Wurhofer, Alexander Meschtscherjakov, Jan David Smeddinck, and Stefan Tino Kulnik. 2024. Targeting behavioral factors
+with digital health and shared decision-making to promote cardiac rehabilitation—a narrative review.Frontiers in digital health6 (2024), 1324544.
+[6] Rakibul Islam, Azrin Sultana, and Mohammad Rashedul Islam. 2024. A comprehensive review for chronic disease prediction using machine learning
+algorithms.Journal of Electrical Systems and Information Technology11, 1 (2024), 27.
+[7] Laura Kooij, Wim G Groen, and Wim H Van Harten. 2017. The effectiveness of information technology-supported shared care for patients with
+chronic disease: a systematic review.Journal of medical Internet research19, 6 (2017), e221.
+[8] Anton Danholt Lautrup, Tobias Hyrup, Anna Schneider-Kamp, Marie Dahl, Jes Sanddal Lindholt, and Peter Schneider-Kamp. 2023. Heart-to-heart
+with ChatGPT: the impact of patients consulting AI for cardiovascular health advice.Open heart10, 2 (2023).
+[9] Vitor Lobo, Diogo Branco, Tiago Guerreiro, Raquel Bouça-Machado, and Joaquim Ferreira. 2021. Machine-learning models for MDS-UPDRS III
+Prediction: A comparative study of features, models, and data sources. (2021).
+[10] Helena M Mentis, Anita Komlodi, Katrina Schrader, Michael Phipps, Ann Gruber-Baldini, Karen Yarbrough, and Lisa Shulman. 2017. Crafting a
+view of self-tracking data in the clinical visit. InProceedings of the 2017 CHI conference on human factors in computing systems. 5800–5812.
+[11] Lyndon Morley and Angela Cashell. 2017. Collaboration in health care.Journal of medical imaging and radiation sciences48, 2 (2017), 207–216.
+[12] Pavithren VS Pakianathan, Rania Islambouli, Hannah McGowan, Diogo Branco, Tiago Guerreiro, and Jan David Smeddinck. 2025. Exploring
+Human-AI Interaction with Patient-Generated Health Data Sensemaking for Cardiac Risk Reduction.arXiv preprint arXiv:2511.00936(2025).
+[13] Shriti Raj, Mark W Newman, Joyce M Lee, and Mark S Ackerman. 2017. Understanding individual and collaborative problem-solving with
+patient-generated data: challenges and opportunities.Proceedings of the ACM on Human-Computer Interaction1, CSCW (2017), 1–18.
+[14] Mashrur Rashik, Shilpa Sweth, Nishtha Agrawal, Saiyyam Kochar, Kara M Smith, Fateme Rajabiyazdi, Vidya Setlur, Narges Mahyar, and Ali
+Sarvghad. 2025. AI-Enabled Conversational Journaling for Advancing Parkinson’s Disease Symptom Tracking. InProceedings of the 2025 CHI
+Conference on Human Factors in Computing Systems. 1–23.
+[15] Pavithren VS Pakianathan, Alireza Fatehi, and Jan Smeddinck. 2024. Towards AI Augmented Personalized Data Sensemaking. InMensch und
+Computer 2024-Workshopband. Gesellschaft für Informatik eV, 10–18420.
+[16] Carolina Wannheden and Åsa Revenäs. 2020. How people with Parkinson’s disease and health care professionals wish to partner in care using
+eHealth: co-design study.Journal of medical Internet research22, 9 (2020), e19195.
+[17] Daniela Wurhofer, Julia Neunteufel, Eva-Maria Strumegger, Isabel Höppchen, Barbara Mayr, Andreas Egger, Mahdi Sareban, Bernhard Reich,
+Michael Neudorfer, Josef Niebauer, et al. 2024. Investigating shared decision-making during the use of a digital health tool for physical activity
+planning in cardiac rehabilitation.Frontiers in Digital Health5 (2024), 1324488.
+[18] Peng Zhang and Maged N Kamel Boulos. 2023. Generative AI in medicine and healthcare: promises, opportunities and challenges.Future Internet
+15, 9 (2023), 286.
+Received 20 February 2007; revised 12 March 2009; accepted 5 June 2009
+Manuscript submitted to ACM
