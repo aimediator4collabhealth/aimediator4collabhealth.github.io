@@ -148,6 +148,8 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 100;
 }
 
 .nav-brand {
@@ -155,6 +157,7 @@ section {
   align-items: center;
   gap: var(--spacing-sm);
   color: var(--color-text-primary);
+  z-index: 102;
   font-weight: 600;
 }
 
@@ -176,6 +179,59 @@ section {
 .nav-menu {
   display: flex;
   gap: var(--spacing-lg);
+}
+
+/* Hamburger menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  z-index: 1002;
+  position: relative;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: var(--color-text-primary);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Menu backdrop overlay */
+.menu-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-backdrop.active {
+  display: block;
+  opacity: 1;
 }
 
 .nav a {
@@ -600,15 +656,98 @@ section {
   :root {
     --font-size-4xl: 2.5rem;
     --font-size-3xl: 2rem;
-    --font-size-2xl: 1.5rem;
+    --font-size-2xl: 1.75rem;
+    --font-size-xl: 1.25rem;
+    --font-size-lg: 1.125rem;
   }
   
   section {
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-xl) 0;
   }
   
+  /* Hero takes full viewport on mobile */
   .hero {
-    min-height: 80vh;
+    min-height: 100vh;
+    padding-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero-content {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .nav {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    padding: 2px 0;
+  }
+  
+  .nav-container {
+    padding: 2px 8px;
+  }
+  
+  .nav-brand {
+    flex: 1;
+  }
+  
+  /* Show hamburger */
+  .hamburger {
+    display: flex;
+  }
+  
+  /* Hide desktop menu, show mobile slide-in */
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 280px;
+    background: white;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    padding: var(--spacing-3xl) var(--spacing-xl);
+    gap: var(--spacing-md);
+    transition: right 0.3s ease;
+    z-index: 1001;
+    overflow-y: auto;
+  }
+  
+  .nav-menu.active {
+    right: 0;
+  }
+  
+  .nav-menu a {
+    font-size: var(--font-size-lg);
+    padding: var(--spacing-md);
+    width: 100%;
+    text-align: left;
+    border-radius: var(--border-radius);
+  }
+  
+  .nav-menu a:hover,
+  .nav-menu a.active {
+    background: var(--color-bg-light);
+  }
+  
+  /* Program activities responsive - stack vertically on mobile */
+  .activity-item {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) 0;
+  }
+  
+  .activity-time {
+    text-align: left;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+  }
+  
+  .activity-content h4 {
+    font-size: var(--font-size-lg);
   }
   
   .logo {
@@ -622,12 +761,31 @@ section {
   .dates-grid {
     grid-template-columns: 1fr;
   }
+  
+  /* Hero text sizing - larger for mobile readability */
+  .hero-title {
+    font-size: 2.25rem;
+  }
+  
+  .hero-intro {
+    font-size: 1.6rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
+  }
+  
+  .hero-location {
+    font-size: 1.25rem;
+  }
 }
 
 @media (max-width: 480px) {
   :root {
     --font-size-4xl: 2rem;
     --font-size-3xl: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
   }
   
   .container {
@@ -637,6 +795,38 @@ section {
   .carousel-btn {
     padding: var(--spacing-xs) var(--spacing-md);
     font-size: var(--font-size-sm);
+  }
+  
+  /* Logo sizing on small screens */
+  .nav-logo {
+    height: 30px;
+  }
+  
+  /* List readability on mobile */
+  ul, ol {
+    padding-left: var(--spacing-lg);
+  }
+  
+  li {
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  /* Hero adjustments for very small screens */
+  .hero-title {
+    font-size: var(--font-size-xl);
+  }
+  
+  .hero-intro, .hero-subtitle {
+    font-size: var(--font-size-base);
+  }
+  
+  /* Activity content */
+  .activity-content h4 {
+    font-size: var(--font-size-sm);
+  }
+  
+  .activity-content p {
+    font-size: var(--font-size-xs);
   }
 }
 

@@ -24,14 +24,22 @@
         <img src="/public/logov2.png" alt="Workshop logo" class="nav-logo">
         <a href="https://ih.acm.org" target="_blank" rel="noopener noreferrer">@IH'26</a>
       </div>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <div class="nav-menu">
         <a href="#about">About</a>
         <a href="#program">Program</a>
-        <a href="#participate">Submissions</a>
+        <a href="#submissions">Submissions</a>
         <a href="#organizers">Organizers</a>
       </div>
     </div>
   </nav>
+  
+  <!-- Mobile menu backdrop -->
+  <div class="menu-backdrop"></div>
 
   <!-- HERO SECTION -->
   <section class="hero" id="home">
@@ -295,5 +303,50 @@
   </section>
 
   <script type="module" src="main.js"></script>
+  <script>
+    // Hamburger menu - inline to guarantee it works
+    document.addEventListener('DOMContentLoaded', function() {
+      var hamburger = document.querySelector('.hamburger');
+      var navMenu = document.querySelector('.nav-menu');
+      var backdrop = document.querySelector('.menu-backdrop');
+      var navLinks = document.querySelectorAll('.nav-menu a');
+
+      if (!hamburger || !navMenu) return;
+
+      function toggleMenu(open) {
+        if (open) {
+          hamburger.classList.add('active');
+          navMenu.classList.add('active');
+          if (backdrop) backdrop.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        } else {
+          hamburger.classList.remove('active');
+          navMenu.classList.remove('active');
+          if (backdrop) backdrop.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+        hamburger.setAttribute('aria-expanded', open);
+      }
+
+      hamburger.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isActive = hamburger.classList.contains('active');
+        toggleMenu(!isActive);
+      });
+
+      if (backdrop) {
+        backdrop.addEventListener('click', function() {
+          toggleMenu(false);
+        });
+      }
+
+      for (var i = 0; i < navLinks.length; i++) {
+        navLinks[i].addEventListener('click', function() {
+          toggleMenu(false);
+        });
+      }
+    });
+  </script>
 </body>
 </html>

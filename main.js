@@ -131,6 +131,61 @@ const initSmoothScroll = () => {
   });
 };
 
+// ===== HAMBURGER MENU =====
+const initHamburgerMenu = () => {
+  const hamburger = document.querySelector('.hamburger');
+  const navMenu = document.querySelector('.nav-menu');
+  const backdrop = document.querySelector('.menu-backdrop');
+  const navLinks = document.querySelectorAll('.nav-menu a');
+  
+  console.log('Hamburger menu init:', {
+    hamburger: !!hamburger,
+    navMenu: !!navMenu,
+    backdrop: !!backdrop,
+    navLinks: navLinks.length
+  });
+  
+  if (!hamburger || !navMenu || !backdrop) {
+    console.warn('Hamburger menu elements not found');
+    return;
+  }
+  
+  const toggleMenu = (open) => {
+    console.log('Toggle menu:', open);
+    hamburger.classList.toggle('active', open);
+    navMenu.classList.toggle('active', open);
+    backdrop.classList.toggle('active', open);
+    hamburger.setAttribute('aria-expanded', open);
+    
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  };
+  
+  // Toggle menu on hamburger click
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isActive = hamburger.classList.contains('active');
+    toggleMenu(!isActive);
+  });
+  
+  // Close menu when clicking backdrop
+  backdrop.addEventListener('click', () => {
+    console.log('Backdrop clicked');
+    toggleMenu(false);
+  });
+  
+  // Close menu when clicking a link
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      console.log('Menu link clicked');
+      toggleMenu(false);
+    });
+  });
+};
+
 // ===== ACTIVE MENU HIGHLIGHTING =====
 const initActiveMenu = () => {
   const sections = document.querySelectorAll('section[id]');
@@ -183,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   new Carousel();
   observeElements();
   initSmoothScroll();
+  initHamburgerMenu();
   initActiveMenu();
   initAccessibility();
   
